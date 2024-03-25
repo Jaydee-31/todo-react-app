@@ -3,6 +3,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { NavLink, Navigate, Outlet } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
+import axiosClient from "../axios";
 
 const navigation = [
 	{ name: "Dashboard", to: "/", current: true },
@@ -11,7 +12,7 @@ const navigation = [
 const userNavigation = [
 	{ name: "Your Profile", to: "#" },
 	{ name: "Settings", to: "#" },
-	{ name: "Sign out", to: "#" },
+	{ name: "Sign out", to: "#", action: 1 },
 ];
 
 function classNames(...classes) {
@@ -19,11 +20,19 @@ function classNames(...classes) {
 }
 
 export default function DefaultLayout() {
-	const { currentUser, userToken } = useStateContext();
+	const { currentUser, userToken, setCurrentUser, setUserToken } = useStateContext();
 
 	if (!userToken) {
 		return <Navigate to="login" />;
 	}
+
+	const logout = (ev) => {
+		ev.preventDefault();
+		axiosClient.post("/logout").then((res) => {
+			setCurrentUser({});
+			setUserToken(null);
+		});
+	};
 
 	return (
 		<>
@@ -116,11 +125,26 @@ export default function DefaultLayout() {
 									</div>
 									<div className="mt-3 space-y-1 px-2">
 										{userNavigation.map((item) => (
-											<Disclosure.Button key={item.name} as="a" href={item.href} className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">
+											<Disclosure.Button
+												key={item.name}
+												as="a"
+												href={item.href}
+												onClick={(ev) => {
+													if (item.action) {
+														console.log("Logging out...");
+														logout(ev); // Execute logout if the item name is "Sign Out"
+													}
+												}}
+												className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">
 												{item.name}
 											</Disclosure.Button>
 										))}
 									</div>
+									{/* <div className="mt-3 space-y-1 px-2">
+										<Disclosure.Button as="a" href="#" onClick={(ev) => logout(ev)} className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">
+											Log out
+										</Disclosure.Button>
+									</div> */}
 								</div>
 							</Disclosure.Panel>
 						</>
