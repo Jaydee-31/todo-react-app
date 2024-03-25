@@ -3,8 +3,12 @@ import PageComponent from "../components/PageComponent";
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import TButton from "../components/core/TButton";
 import axiosClient from "../axios";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function SurveyView() {
+
+	const navigate = useNavigate();
+	
 	const [survey, setSurvey] = useState({
 		title: "",
 		slug: "",
@@ -16,20 +20,51 @@ export default function SurveyView() {
 		questions: [],
 	});
 
-	const onImageChoose = () => {
+	const onImageChoose = (ev) => {
 		console.log("On image choose");
+		const file = ev.target.files[0];
+
+		const reader = new FileReader();
+		reader.onload = () => {
+			setSurvey({
+				...survey,
+				image: file,
+				image_url: reader.result,
+			});
+
+			ev.target.value = "";
+		};
+		reader.readAsDataURL(file);
 	};
 
 	const onSubmit = (ev) => {
-		console.log("im here");
 		ev.preventDefault();
-		axiosClient.post("/survey", {
-			title: "tiel asdlern asdasd",
-			description: "Test",
-			expire_date: "2024-03-25 16:36:33",
-			status: true,
-			questions: [],
-		});
+
+		const payload = { ...survey };
+		if (payload.image) {
+			payload.image = payload.image_url;
+		}
+		delete payload.image_url;
+		let res = null;
+
+		res = axiosClient.post("/survey", payload);
+
+		res
+			.then((res) => {
+				console.log(res);
+				navigate("/surveys");
+				if (id) {
+					showToast("The survey was updated");
+				} else {
+					showToast("The survey was created");
+				}
+			})
+			.catch((err) => {
+				if (err && err.response) {
+					setError(err.response.data.message);
+				}
+				console.log(err, err.response);
+			});
 	};
 
 	return (
@@ -50,7 +85,7 @@ export default function SurveyView() {
 									</span>
 								)}
 								<button type="button" className="relative ml-5 rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-									<input type="file" className="absolute left-0 top-0 right-0 bottom-0 opacity-0" />
+									<input type="file" onChange={onImageChoose} className="absolute left-0 top-0 right-0 bottom-0 opacity-0" />
 									Change
 								</button>
 							</div>
