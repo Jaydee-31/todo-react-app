@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PageComponent from "../components/PageComponent";
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import TButton from "../components/core/TButton";
+import axiosClient from "../axios";
 
 export default function SurveyView() {
 	const [survey, setSurvey] = useState({
@@ -15,9 +16,25 @@ export default function SurveyView() {
 		questions: [],
 	});
 
+	const onImageChoose = () => {
+		console.log("On image choose");
+	};
+
+	const onSubmit = (ev) => {
+		console.log("im here");
+		ev.preventDefault();
+		axiosClient.post("/survey", {
+			title: "tiel asdlern asdasd",
+			description: "Test",
+			expire_date: "2024-03-25 16:36:33",
+			status: true,
+			questions: [],
+		});
+	};
+
 	return (
 		<PageComponent title="Create new Survey">
-			<form action="#" method="POST">
+			<form action="#" method="POST" onSubmit={onSubmit}>
 				<div className="shadow sm:overflow-hidden sm:rounded-md">
 					<div className="space-y-6 bg-white px-4 py-5 sm:p-6">
 						{/* {error && <div className="bg-red-500 text-white py-3 px-3">{error}</div>} */}
