@@ -4,6 +4,8 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { NavLink, Navigate, Outlet } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const navigation = [
 	{ name: "Dashboard", to: "/", current: true },
@@ -153,6 +155,8 @@ export default function DefaultLayout() {
 				</Disclosure>
 
 				<Outlet />
+
+				<ToastContainer />
 			</div>
 		</>
 	);
