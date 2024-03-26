@@ -81,7 +81,17 @@ export default function DefaultLayout() {
 														{userNavigation.map((item) => (
 															<Menu.Item key={item.name}>
 																{({ active }) => (
-																	<a href={item.href} className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700")}>
+																	<a
+																		href={item.href}
+																		as="a"
+																		to={item.to}
+																		onClick={(ev) => {
+																			if (item.action) {
+																				console.log("Logging out...");
+																				logout(ev); // Execute logout if the item name is "Sign Out"
+																			}
+																		}}
+																		className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700 cursor-pointer")}>
 																		{item.name}
 																	</a>
 																)}
@@ -138,7 +148,7 @@ export default function DefaultLayout() {
 														logout(ev); // Execute logout if the item name is "Sign Out"
 													}
 												}}
-												className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">
+												className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white cursor-pointer">
 												{item.name}
 											</Disclosure.Button>
 										))}
