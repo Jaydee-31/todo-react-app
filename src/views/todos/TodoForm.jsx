@@ -3,8 +3,12 @@ import PageComponent from "../../components/PageComponent";
 import TButton from "../../components/core/TButton";
 import axios from "axios";
 import axiosClient from "../../axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function TodoForm() {
+	const navigate = useNavigate();
+
 	const [todo, setTodo] = useState({
 		name: "",
 		description: "",
@@ -20,7 +24,11 @@ export default function TodoForm() {
 			.post("/todo/create", todo)
 			.then((response) => {
 				console.log("Todo created successfully:", response.data);
-				// Handle success, maybe redirect the user or show a success message
+				toast("Todo created successfully!", {
+					position: "bottom-right",
+					className: "foo-bar",
+				});
+				navigate("/todos");
 			})
 			.catch((error) => {
 				console.error("Error creating todo:", error);
