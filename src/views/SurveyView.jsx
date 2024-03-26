@@ -6,9 +6,10 @@ import axiosClient from "../axios";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function SurveyView() {
-
 	const navigate = useNavigate();
-	
+
+	const [error, setError] = useState();
+
 	const [survey, setSurvey] = useState({
 		title: "",
 		slug: "",
@@ -72,7 +73,7 @@ export default function SurveyView() {
 			<form action="#" method="POST" onSubmit={onSubmit}>
 				<div className="shadow sm:overflow-hidden sm:rounded-md">
 					<div className="space-y-6 bg-white px-4 py-5 sm:p-6">
-						{/* {error && <div className="bg-red-500 text-white py-3 px-3">{error}</div>} */}
+						{error && <div className="bg-red-500 text-white py-3 px-3 rounded">{error}</div>}
 
 						{/*Image*/}
 						<div>
