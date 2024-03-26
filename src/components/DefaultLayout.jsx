@@ -8,6 +8,7 @@ import axiosClient from "../axios";
 const navigation = [
 	{ name: "Dashboard", to: "/", current: true },
 	{ name: "Surveys", to: "/surveys", current: false },
+	{ name: "Todos", to: "/todos", current: false },
 ];
 const userNavigation = [
 	{ name: "Your Profile", to: "#" },

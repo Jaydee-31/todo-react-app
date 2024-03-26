@@ -7,6 +7,8 @@ import GuestLayout from "./components/GuestLayout";
 import Login from "./views/Login";
 import Signup from "./views/Signup";
 import SurveyView from "./views/SurveyView";
+import Todos from "./views/todos/Todos";
+import TodoForm from "./views/todos/TodoForm";
 
 const router = createBrowserRouter([
 	{
@@ -28,6 +30,14 @@ const router = createBrowserRouter([
 			{
 				path: "/surveys/create",
 				element: <SurveyView />,
+			},
+			{
+				path: "/todos",
+				element: <Todos />,
+			},
+			{
+				path: "/todos/create",
+				element: <TodoForm />,
 			},
 		],
 	},
