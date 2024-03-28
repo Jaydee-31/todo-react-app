@@ -32,12 +32,12 @@ export default function Todos() {
 	return (
 		<PageComponent
 			title="Todos"
-			buttons={[
+			buttons={
 				<TButton color="green" to="/todos/create">
 					<PlusCircleIcon className="h-6 w-6 mr-2" />
 					Create new
-				</TButton>,
-			]}>
+				</TButton>
+			}>
 			{loading ? (
 				<p>Loading...</p>
 			) : (
