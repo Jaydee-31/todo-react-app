@@ -8,11 +8,13 @@ import EmptyState from "../../components/EmptyState";
 import LoadDots from "../../components/spinner/LoadDots";
 import { PencilIcon } from "@heroicons/react/20/solid";
 import Modal from "../../components/Modal";
+import { toast } from "react-toastify";
 
 export default function Todos() {
 	const [todos, setTodos] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [meta, setMeta] = useState({});
+	const [selectedTodoId, setSelectedTodoId] = useState(null);
 
 	const onPageClick = (link) => {
 		getTodos(link.url);
@@ -34,10 +36,15 @@ export default function Todos() {
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const onDelete = () => {
-		// Perform delete action here
-		// For demonstration purposes, we'll just log a message
-		console.log("Item deleted");
+	const handleDelete = () => {
+		axiosClient.delete(`/todo/delete/${selectedTodoId}`).then(() => {
+			getTodos();
+			toast("Todo deleted successfully!", {
+				position: "bottom-right",
+				className: "foo-bar",
+			});
+		});
+		console.log("Deleted successfully");
 		setIsModalOpen(false); // Close the modal after deletion
 	};
 
@@ -65,7 +72,7 @@ export default function Todos() {
 							<div className="overflow-x-auto ">
 								<div className="inline-block min-w-full bg-white rounded-md shadow-md">
 									<div className="overflow-hidden">
-										<table className="min-w-full text-left text-sm font-light">
+										<table className="table-auto  text-left text-sm font-light">
 											<thead className="border-b font-medium dark:border-neutral-500">
 												<tr>
 													<th scope="col" className="px-6 py-4">
@@ -87,14 +94,21 @@ export default function Todos() {
 													<tr key={todo.id} className="border-b transition duration-50 ease-in-out hover:bg-neutral-200">
 														<td className="whitespace-nowrap px-6 py-4 font-medium">{todo.id}</td>
 														<td className="whitespace-nowrap px-6 py-4 font-normal">{todo.name}</td>
-														<td className="whitespace-nowrap px-6 py-4 font-normal">{todo.description}</td>
+														<td className="whitespace-nowrap px-6 py-4 font-normal truncate text-balance">{todo.description}</td>
 														<td className="whitespace-nowrap px-6 py-4 font-normal">{todo.status ? "Active" : "Inactive"}</td>
 														<td>
 															<div className="flex items-center">
 																<TButton to={`/todo/update/${todo.id}`} circle link color="green">
 																	<PencilSquareIcon className="w-5 h-5 mr-2 " />
 																</TButton>
-																<TButton onClick={() => setIsModalOpen(true)} circle link color="red">
+																<TButton
+																	onClick={() => {
+																		setSelectedTodoId(todo.id);
+																		setIsModalOpen(true);
+																	}}
+																	circle
+																	link
+																	color="red">
 																	<TrashIcon className="w-5 h-5" />
 																</TButton>
 															</div>
@@ -113,7 +127,7 @@ export default function Todos() {
 			)}
 
 			{/* Display Modal */}
-			<Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onConfirm={onDelete} title="Delete Item" content="Are you sure you want to delete this item? This action cannot be undone." />
+			<Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onConfirm={handleDelete} title="Delete Item" content="Are you sure you want to delete this item? This action cannot be undone." />
 		</PageComponent>
 	);
 }
