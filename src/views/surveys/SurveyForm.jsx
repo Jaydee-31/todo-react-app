@@ -58,7 +58,6 @@ export default function SurveyForm() {
 
 		result
 			.then((response) => {
-				navigate("/surveys");
 				if (id) {
 					console.log("Survey updated successfully:", response.data);
 					toast("Todo updated successfully!", {
@@ -71,10 +70,11 @@ export default function SurveyForm() {
 						position: "bottom-right",
 						className: "foo-bar",
 					});
+					navigate("/surveys");
 				}
 			})
 			.catch((error) => {
-				console.error("Error on executing action:", error);
+				console.error("Error encountered execution:", error);
 				setErrors(error.response.data.errors);
 			});
 	};

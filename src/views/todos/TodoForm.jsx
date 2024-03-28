@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PageComponent from "../../components/PageComponent";
 import TButton from "../../components/core/TButton";
 import axios from "axios";
 import axiosClient from "../../axios";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function TodoForm() {
 	const navigate = useNavigate();
+	const { id } = useParams();
 
 	const [todo, setTodo] = useState({
 		name: "",
@@ -19,23 +20,48 @@ export default function TodoForm() {
 
 	const onSubmit = (ev) => {
 		ev.preventDefault();
-		// Make a POST request using Axios
-		axiosClient
-			.post("/todo/create", todo)
+		let result = null;
+
+		if (id) {
+			// Make a PUT request using Axios
+			result = axiosClient.put(`/todo/update/${id}`, todo);
+		} else {
+			// Make a POST request using Axios
+			result = axiosClient.post("/todo/create", todo);
+		}
+
+		result
 			.then((response) => {
-				console.log("Todo created successfully:", response.data);
-				toast("Todo created successfully!", {
-					position: "bottom-right",
-					className: "foo-bar",
-				});
+				if (id) {
+					console.log("Todo updated successfully:", response.data);
+					toast("Todo updated successfully!", {
+						position: "bottom-right",
+						className: "foo-bar",
+					});
+				} else {
+					console.log("Todo created successfully:", response.data);
+					toast("Todo created successfully!", {
+						position: "bottom-right",
+						className: "foo-bar",
+					});
+				}
 				navigate("/todos");
 			})
 			.catch((error) => {
-				console.error("Error creating todo:", error);
+				console.error("Error encountered execution:", error);
 				setErrors(error.response.data.errors);
-				// Handle other errors
 			});
 	};
+
+	useEffect(() => {
+		if (id) {
+			// setLoading(true);
+			axiosClient.get(`todo/show/${id}`).then(({ data }) => {
+				setTodo(data.data);
+				// setLoading(false);
+			});
+		}
+	}, []);
 
 	return (
 		<PageComponent title="Create new todo">

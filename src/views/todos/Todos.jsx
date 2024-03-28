@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axiosClient from "../../axios";
-import { PlusCircleIcon } from "@heroicons/react/24/outline";
+import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import PageComponent from "../../components/PageComponent";
 import TButton from "../../components/core/TButton";
 import PaginationLinks from "../../components/PaginationLinks";
 import EmptyState from "../../components/EmptyState";
 import LoadDots from "../../components/spinner/LoadDots";
+import { PencilIcon } from "@heroicons/react/20/solid";
 
 export default function Todos() {
 	const [todos, setTodos] = useState([]);
@@ -34,7 +35,7 @@ export default function Todos() {
 		<PageComponent
 			title="Todos"
 			buttons={
-				<TButton color="green" to="/todos/create">
+				<TButton color="green" to="/todo/create">
 					<PlusCircleIcon className="h-6 w-6 mr-2" />
 					Create new
 				</TButton>
@@ -74,6 +75,11 @@ export default function Todos() {
 														<td className="whitespace-nowrap px-6 py-4 font-normal">{todo.name}</td>
 														<td className="whitespace-nowrap px-6 py-4 font-normal">{todo.description}</td>
 														<td className="whitespace-nowrap px-6 py-4 font-normal">{todo.status ? "Active" : "Inactive"}</td>
+														<td>
+															<TButton to={`/todo/update/${todo.id}`} circle link color="red">
+																<PencilSquareIcon className="w-5 h-5 mr-2 " />
+															</TButton>
+														</td>
 													</tr>
 												))}
 											</tbody>

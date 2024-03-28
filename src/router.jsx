@@ -39,7 +39,11 @@ const router = createBrowserRouter([
 				element: <Todos />,
 			},
 			{
-				path: "/todos/create",
+				path: "/todo/create",
+				element: <TodoForm />,
+			},
+			{
+				path: "/todo/update/:id",
 				element: <TodoForm />,
 			},
 		],
