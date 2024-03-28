@@ -4,11 +4,10 @@ import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import TButton from "../components/core/TButton";
 import axiosClient from "../axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function SurveyView() {
 	const navigate = useNavigate();
-
-	const [error, setError] = useState();
 
 	const [survey, setSurvey] = useState({
 		title: "",
@@ -20,6 +19,8 @@ export default function SurveyView() {
 		expire_date: "",
 		questions: [],
 	});
+
+	const [errors, setErrors] = useState({});
 
 	const onImageChoose = (ev) => {
 		console.log("On image choose");
@@ -46,25 +47,27 @@ export default function SurveyView() {
 			payload.image = payload.image_url;
 		}
 		delete payload.image_url;
-		let res = null;
 
-		res = axiosClient.post("/survey", payload);
-
-		res
-			.then((res) => {
-				console.log(res);
+		axiosClient
+			.post("/survey", payload)
+			.then((response) => {
+				console.log("Survey created successfully:", response.data);
 				navigate("/surveys");
 				if (id) {
-					showToast("The survey was updated");
+					toast("Todo updated successfully!", {
+						position: "bottom-right",
+						className: "foo-bar",
+					});
 				} else {
-					showToast("The survey was created");
+					toast("Todo created successfully!", {
+						position: "bottom-right",
+						className: "foo-bar",
+					});
 				}
 			})
-			.catch((err) => {
-				if (err && err.response) {
-					setError(err.response.data.message);
-				}
-				console.log(err, err.response);
+			.catch((error) => {
+				console.error("Error creating survey:", error);
+				setErrors(error.response.data.errors);
 			});
 	};
 
@@ -73,8 +76,6 @@ export default function SurveyView() {
 			<form action="#" method="POST" onSubmit={onSubmit}>
 				<div className="shadow sm:overflow-hidden sm:rounded-md">
 					<div className="space-y-6 bg-white px-4 py-5 sm:p-6">
-						{error && <div className="bg-red-500 text-white py-3 px-3 rounded">{error}</div>}
-
 						{/*Image*/}
 						<div>
 							<label className="block text-sm font-medium text-gray-700">Photo</label>
@@ -99,6 +100,7 @@ export default function SurveyView() {
 								Survey Title
 							</label>
 							<input type="text" name="title" id="title" value={survey.title} onChange={(ev) => setSurvey({ ...survey, title: ev.target.value })} placeholder="Survey Title" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+							{errors.title && <p className="text-red-500 text-sm mt-1">{errors.title[0]}</p>}
 						</div>
 						{/*Title*/}
 
@@ -109,6 +111,7 @@ export default function SurveyView() {
 							</label>
 							{/* <pre>{ JSON.stringify(survey, undefined, 2) }</pre> */}
 							<textarea name="description" id="description" value={survey.description || ""} onChange={(ev) => setSurvey({ ...survey, description: ev.target.value })} placeholder="Describe your survey" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea>
+							{errors.description && <p className="text-red-500 text-sm mt-1">{errors.description[0]}</p>}
 						</div>
 						{/*Description*/}
 
@@ -118,6 +121,7 @@ export default function SurveyView() {
 								Expire Date
 							</label>
 							<input type="date" name="expire_date" id="expire_date" value={survey.expire_date} onChange={(ev) => setSurvey({ ...survey, expire_date: ev.target.value })} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+							{errors.expire_date && <p className="text-red-500 text-sm mt-1">{errors.expire_date[0]}</p>}
 						</div>
 						{/*Expire Date*/}
 
