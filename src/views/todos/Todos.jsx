@@ -70,9 +70,9 @@ export default function Todos() {
 												{todos.map((todo) => (
 													<tr key={todo.id} className="border-b transition duration-50 ease-in-out hover:bg-neutral-200">
 														<td className="whitespace-nowrap px-6 py-4 font-medium">{todo.id}</td>
-														<td className="whitespace-nowrap px-6 py-4">{todo.name}</td>
-														<td className="whitespace-nowrap px-6 py-4">{todo.description}</td>
-														<td className="whitespace-nowrap px-6 py-4">{todo.status ? "Active" : "Inactive"}</td>
+														<td className="whitespace-nowrap px-6 py-4 font-normal">{todo.name}</td>
+														<td className="whitespace-nowrap px-6 py-4 font-normal">{todo.description}</td>
+														<td className="whitespace-nowrap px-6 py-4 font-normal">{todo.status ? "Active" : "Inactive"}</td>
 													</tr>
 												))}
 											</tbody>
