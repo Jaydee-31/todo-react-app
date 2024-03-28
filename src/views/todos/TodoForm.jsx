@@ -64,7 +64,7 @@ export default function TodoForm() {
 	}, []);
 
 	return (
-		<PageComponent title="Create new todo">
+		<PageComponent title={!id ? "Create new todo" : "Update todo"}>
 			<form action="#" method="POST" onSubmit={onSubmit}>
 				<div className="shadow sm:overflow-hidden sm:rounded-md">
 					<div className="space-y-6 bg-white px-4 py-5 sm:p-6">
