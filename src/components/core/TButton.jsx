@@ -12,6 +12,7 @@ export default function TButton({ color = "indigo", to = "", circle = false, hre
 				break;
 			case "red":
 				classes = [...classes, "text-red-500", "focus:border-red-500"];
+				break;
 			case "green":
 				classes = [...classes, "text-emerald-500", "focus:border-emerald-500"];
 		}

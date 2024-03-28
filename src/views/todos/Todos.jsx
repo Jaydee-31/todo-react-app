@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axiosClient from "../../axios";
-import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
+import { PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/24/outline";
 import PageComponent from "../../components/PageComponent";
 import TButton from "../../components/core/TButton";
 import PaginationLinks from "../../components/PaginationLinks";
 import EmptyState from "../../components/EmptyState";
 import LoadDots from "../../components/spinner/LoadDots";
 import { PencilIcon } from "@heroicons/react/20/solid";
+import Modal from "../../components/Modal";
 
 export default function Todos() {
 	const [todos, setTodos] = useState([]);
@@ -30,6 +31,19 @@ export default function Todos() {
 	useEffect(() => {
 		getTodos();
 	}, []);
+
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
+	const onDelete = () => {
+		// Perform delete action here
+		// For demonstration purposes, we'll just log a message
+		console.log("Item deleted");
+		setIsModalOpen(false); // Close the modal after deletion
+	};
+
+	const handleCancel = () => {
+		setIsModalOpen(false); // Close the modal without performing delete action
+	};
 
 	return (
 		<PageComponent
@@ -76,9 +90,14 @@ export default function Todos() {
 														<td className="whitespace-nowrap px-6 py-4 font-normal">{todo.description}</td>
 														<td className="whitespace-nowrap px-6 py-4 font-normal">{todo.status ? "Active" : "Inactive"}</td>
 														<td>
-															<TButton to={`/todo/update/${todo.id}`} circle link color="red">
-																<PencilSquareIcon className="w-5 h-5 mr-2 " />
-															</TButton>
+															<div className="flex items-center">
+																<TButton to={`/todo/update/${todo.id}`} circle link color="green">
+																	<PencilSquareIcon className="w-5 h-5 mr-2 " />
+																</TButton>
+																<TButton onClick={() => setIsModalOpen(true)} circle link color="red">
+																	<TrashIcon className="w-5 h-5" />
+																</TButton>
+															</div>
 														</td>
 													</tr>
 												))}
@@ -92,6 +111,9 @@ export default function Todos() {
 					<div>{todos.length > 0 && <PaginationLinks meta={meta} onPageClick={onPageClick} />}</div>
 				</>
 			)}
+
+			{/* Display Modal */}
+			<Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onConfirm={onDelete} title="Delete Item" content="Are you sure you want to delete this item? This action cannot be undone." />
 		</PageComponent>
 	);
 }
