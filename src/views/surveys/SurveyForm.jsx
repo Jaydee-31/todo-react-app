@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PageComponent from "../../components/PageComponent";
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import TButton from "../../components/core/TButton";
@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 
 export default function SurveyForm() {
 	const navigate = useNavigate();
+	const { id } = useParams();
 
 	const [survey, setSurvey] = useState({
 		title: "",
@@ -47,18 +48,25 @@ export default function SurveyForm() {
 			payload.image = payload.image_url;
 		}
 		delete payload.image_url;
+		let result = null;
 
-		axiosClient
-			.post("/survey", payload)
+		if (id) {
+			result = axiosClient.put(`/survey/${id}`, payload);
+		} else {
+			result = axiosClient.post("/survey", payload);
+		}
+
+		result
 			.then((response) => {
-				console.log("Survey created successfully:", response.data);
 				navigate("/surveys");
 				if (id) {
+					console.log("Survey updated successfully:", response.data);
 					toast("Todo updated successfully!", {
 						position: "bottom-right",
 						className: "foo-bar",
 					});
 				} else {
+					console.log("Survey created successfully:", response.data);
 					toast("Todo created successfully!", {
 						position: "bottom-right",
 						className: "foo-bar",
@@ -66,13 +74,22 @@ export default function SurveyForm() {
 				}
 			})
 			.catch((error) => {
-				console.error("Error creating survey:", error);
+				console.error("Error on executing action:", error);
 				setErrors(error.response.data.errors);
 			});
 	};
+	useEffect(() => {
+		if (id) {
+			// setLoading(true);
+			axiosClient.get(`/survey/${id}`).then(({ data }) => {
+				setSurvey(data.data);
+				// setLoading(false);
+			});
+		}
+	}, []);
 
 	return (
-		<PageComponent title="Create new Survey">
+		<PageComponent title={!id ? "Create new Survey" : "Update Survey"}>
 			<form action="#" method="POST" onSubmit={onSubmit}>
 				<div className="shadow sm:overflow-hidden sm:rounded-md">
 					<div className="space-y-6 bg-white px-4 py-5 sm:p-6">

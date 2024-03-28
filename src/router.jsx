@@ -31,6 +31,10 @@ const router = createBrowserRouter([
 				element: <SurveyForm />,
 			},
 			{
+				path: "/survey/update/:id",
+				element: <SurveyForm />,
+			},
+			{
 				path: "/todos",
 				element: <Todos />,
 			},

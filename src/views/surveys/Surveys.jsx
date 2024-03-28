@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axiosClient from "../../axios";
 import PaginationLinks from "../../components/PaginationLinks";
 import SurveyList from "./SurveyList";
+import { toast } from "react-toastify";
 
 export default function Surveys() {
 	// const { surveys } = useStateContext();
@@ -12,8 +13,15 @@ export default function Surveys() {
 	const [meta, setMeta] = useState({});
 	const [loading, setLoading] = useState(false);
 
-	const onDeleteClick = () => {
-		console.log("Deleted");
+	const onDeleteClick = (id) => {
+		console.log("Deleted successfully");
+		axiosClient.delete(`/survey/${id}`).then(() => {
+			getSurveys();
+			toast("Todo deleted successfully!", {
+				position: "bottom-right",
+				className: "foo-bar",
+			});
+		});
 	};
 
 	const onPageClick = (link) => {
