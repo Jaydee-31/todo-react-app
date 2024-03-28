@@ -6,6 +6,7 @@ import axiosClient from "../../axios";
 import PaginationLinks from "../../components/PaginationLinks";
 import SurveyList from "./SurveyList";
 import { toast } from "react-toastify";
+import LoadCircle from "../../components/spinner/LoadCircle";
 
 export default function Surveys() {
 	// const { surveys } = useStateContext();
@@ -52,7 +53,7 @@ export default function Surveys() {
 				</TButton>
 			}>
 			{loading ? (
-				<p>Loading...</p>
+				<LoadCircle />
 			) : (
 				<div>
 					<div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 mb-4">

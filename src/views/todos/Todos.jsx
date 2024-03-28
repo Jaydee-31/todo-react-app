@@ -5,6 +5,7 @@ import PageComponent from "../../components/PageComponent";
 import TButton from "../../components/core/TButton";
 import PaginationLinks from "../../components/PaginationLinks";
 import EmptyState from "../../components/EmptyState";
+import LoadDots from "../../components/spinner/LoadDots";
 
 export default function Todos() {
 	const [todos, setTodos] = useState([]);
@@ -39,7 +40,7 @@ export default function Todos() {
 				</TButton>
 			}>
 			{loading ? (
-				<p>Loading...</p>
+				<LoadDots />
 			) : (
 				<>
 					{todos.length === 0 ? ( // Check if todos array is empty
