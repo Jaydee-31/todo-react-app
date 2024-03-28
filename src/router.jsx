@@ -1,19 +1,18 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
-import App from "./App";
 import Dashboard from "./views/Dashboard";
-import Surveys from "./views/Surveys";
-import DefaultLayout from "./components/DefaultLayout";
-import GuestLayout from "./components/GuestLayout";
-import Login from "./views/Login";
-import Signup from "./views/Signup";
-import SurveyView from "./views/SurveyView";
+import AppLayout from "./views/layouts/AppLayout";
+import GuestLayout from "./views/layouts/GuestLayout";
+import Login from "./views/auth/Login";
+import Signup from "./views/auth/Signup";
 import Todos from "./views/todos/Todos";
 import TodoForm from "./views/todos/TodoForm";
+import Surveys from "./views/surveys/Surveys";
+import SurveyForm from "./views/surveys/SurveyForm";
 
 const router = createBrowserRouter([
 	{
 		path: "/",
-		element: <DefaultLayout />,
+		element: <AppLayout />,
 		children: [
 			{
 				path: "/dashboard",
@@ -29,7 +28,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "/surveys/create",
-				element: <SurveyView />,
+				element: <SurveyForm />,
 			},
 			{
 				path: "/todos",

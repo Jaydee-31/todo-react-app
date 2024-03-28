@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axiosClient from "../../axios";
-import { FolderPlusIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
+import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import PageComponent from "../../components/PageComponent";
 import TButton from "../../components/core/TButton";
 import PaginationLinks from "../../components/PaginationLinks";
-import { XCircleIcon } from "@heroicons/react/20/solid";
 import EmptyState from "../../components/EmptyState";
 
 export default function Todos() {

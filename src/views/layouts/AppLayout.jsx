@@ -2,8 +2,8 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { NavLink, Navigate, Outlet } from "react-router-dom";
-import { useStateContext } from "../contexts/ContextProvider";
-import axiosClient from "../axios";
+import { useStateContext } from "../../contexts/ContextProvider";
+import axiosClient from "../../axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -22,7 +22,7 @@ function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
 }
 
-export default function DefaultLayout() {
+export default function AppLayout() {
 	const { currentUser, userToken, setCurrentUser, setUserToken } = useStateContext();
 
 	if (!userToken) {

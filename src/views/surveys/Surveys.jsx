@@ -1,11 +1,10 @@
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
-import PageComponent from "../components/PageComponent";
-import SurveyListItem from "../components/SurveyListItem";
-import TButton from "../components/core/TButton";
-import { useStateContext } from "../contexts/ContextProvider";
+import PageComponent from "../../components/PageComponent";
+import TButton from "../../components/core/TButton";
 import { useEffect, useState } from "react";
-import axiosClient from "../axios";
-import PaginationLinks from "../components/PaginationLinks";
+import axiosClient from "../../axios";
+import PaginationLinks from "../../components/PaginationLinks";
+import SurveyList from "./SurveyList";
 
 export default function Surveys() {
 	// const { surveys } = useStateContext();
@@ -50,7 +49,7 @@ export default function Surveys() {
 				<div>
 					<div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 mb-4">
 						{surveys.map((survey) => (
-							<SurveyListItem survey={survey} key={survey.id} onDeleteClick={onDeleteClick} />
+							<SurveyList survey={survey} key={survey.id} onDeleteClick={onDeleteClick} />
 						))}
 					</div>
 					{surveys.length > 0 && <PaginationLinks meta={meta} onPageClick={onPageClick} />}

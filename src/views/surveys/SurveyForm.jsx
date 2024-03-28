@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import PageComponent from "../components/PageComponent";
+import PageComponent from "../../components/PageComponent";
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/outline";
-import TButton from "../components/core/TButton";
-import axiosClient from "../axios";
+import TButton from "../../components/core/TButton";
+import axiosClient from "../../axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export default function SurveyView() {
+export default function SurveyForm() {
 	const navigate = useNavigate();
 
 	const [survey, setSurvey] = useState({

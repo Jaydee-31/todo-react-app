@@ -1,8 +1,8 @@
 import { ArrowTopRightOnSquareIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import React from "react";
-import TButton from "./core/TButton";
+import TButton from "../../components/core/TButton";
 
-export default function SurveyListItem({ survey, onDeleteClick }) {
+export default function SurveyList({ survey, onDeleteClick }) {
 	return (
 		<div className="flex flex-col py-4 px-6 shadow-md bg-white hover:bg-gray-50 h-[470px] rounded-lg">
 			<img src={survey.image_url} alt={survey.title} className="w-full h-48 object-cover" />
