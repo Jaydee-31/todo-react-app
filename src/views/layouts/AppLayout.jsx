@@ -1,7 +1,7 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { NavLink, Navigate, Outlet } from "react-router-dom";
+import { NavLink, Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useStateContext } from "../../contexts/ContextProvider";
 import axiosClient from "../../axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -13,7 +13,7 @@ const navigation = [
 	{ name: "Todos", to: "/todos", current: false },
 ];
 const userNavigation = [
-	{ name: "Your Profile", to: "#" },
+	{ name: "Your Profile", to: "#", action: 0 },
 	{ name: "Settings", to: "#" },
 	{ name: "Sign out", to: "#", action: 1 },
 ];
@@ -24,17 +24,40 @@ function classNames(...classes) {
 
 export default function AppLayout() {
 	const { currentUser, userToken, setCurrentUser, setUserToken } = useStateContext();
+	const navigate = useNavigate();
 
-	if (!userToken) {
-		return <Navigate to="login" />;
-	}
+	// useEffect for fetching current user data
+	useEffect(() => {
+		if (!userToken) {
+			navigate("/login");
+		} else {
+			axiosClient
+				.get("/me")
+				.then(({ data }) => {
+					setCurrentUser(data);
+				})
+				.catch((error) => {
+					// Handle error, e.g., redirect to login page
+					console.error("Error fetching current user:", error);
+					navigate("/login");
+				});
+		}
+	}, [userToken, navigate, setCurrentUser]);
 
+	// Logout function
 	const logout = (ev) => {
 		ev.preventDefault();
-		axiosClient.post("/logout").then((res) => {
-			setCurrentUser({});
-			setUserToken(null);
-		});
+		axiosClient
+			.post("/logout")
+			.then((res) => {
+				setCurrentUser({}); // Reset currentUser
+				setUserToken(null); // Reset userToken
+				navigate("/login"); // Navigate to login page
+			})
+			.catch((error) => {
+				console.error("Error logging out:", error);
+				// Handle error, e.g., display a message to the user
+			});
 	};
 
 	return (
@@ -86,9 +109,14 @@ export default function AppLayout() {
 																		as="a"
 																		to={item.to}
 																		onClick={(ev) => {
-																			if (item.action) {
+																			if (item.action == 1) {
 																				console.log("Logging out...");
 																				logout(ev); // Execute logout if the item name is "Sign Out"
+																			}
+																			if (item.action == 0) {
+																				console.log("Update profile");
+																				console.log(currentUser);
+																				navigate(`/profile`); // Execute logout if the item name is "Sign Out"
 																			}
 																		}}
 																		className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700 cursor-pointer")}>
@@ -143,9 +171,14 @@ export default function AppLayout() {
 												as="a"
 												href={item.href}
 												onClick={(ev) => {
-													if (item.action) {
+													if (item.action == 1) {
 														console.log("Logging out...");
 														logout(ev); // Execute logout if the item name is "Sign Out"
+													}
+													if (item.action == 0) {
+														console.log("Update profile");
+														console.log(currentUser);
+														navigate(`/profile/`); // Execute logout if the item name is "Sign Out"
 													}
 												}}
 												className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white cursor-pointer">
