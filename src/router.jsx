@@ -8,6 +8,7 @@ import Todos from "./views/todos/Todos";
 import TodoForm from "./views/todos/TodoForm";
 import Surveys from "./views/surveys/Surveys";
 import SurveyForm from "./views/surveys/SurveyForm";
+import Edit from "./views/profile/Edit";
 
 const router = createBrowserRouter([
 	{
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
 			{
 				path: "/todo/update/:id",
 				element: <TodoForm />,
+			},
+			{
+				path: "/profile/",
+				element: <Edit />,
 			},
 		],
 	},
