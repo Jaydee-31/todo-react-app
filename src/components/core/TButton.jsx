@@ -35,7 +35,7 @@ export default function TButton({ color = "indigo", to = "", circle = false, hre
 	if (circle) {
 		classes = [...classes, "h-8", "w-8", "items-center", "justify-center", "rounded-full", "text-sm"];
 	} else {
-		classes = [...classes, "p-0", "py-2", "px-4", "rounded-md"];
+		classes = [...classes, "p-0", "py-2", "px-4", "rounded-md", "font-semibold", "text-xs", "text-white", "uppercase", "tracking-widest"];
 	}
 
 	return (

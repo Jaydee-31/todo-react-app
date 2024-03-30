@@ -27,41 +27,42 @@ export default function UpdatePasswordForm({ user, className = "" }) {
 	};
 
 	return (
-		<section className={className}>
-			<header>
+		<div className="grid md:grid-cols-2 md:gap-4">
+			<header className="mb-6 ">
 				<h2 className="text-lg font-medium text-gray-900">Update Password</h2>
 				<p className="mt-1 text-sm text-gray-600">Ensure your account is using a long, random password to stay secure.</p>
 			</header>
+			<section className={className}>
+				<form onSubmit={onSubmit} className="space-y-6">
+					<div>
+						<label htmlFor="current_password" className="block text-sm font-medium text-gray-700">
+							Current Password
+						</label>
+						<input type="password" name="current_password" id="current_password" value={passwordData.current_password} onChange={(ev) => setPasswordData({ ...passwordData, current_password: ev.target.value })} placeholder="Enter your current password" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+						{errors.current_password && <p className="text-red-500 mt-1">{errors.current_password}</p>}
+					</div>
 
-			<form onSubmit={onSubmit} className="mt-6 space-y-6">
-				<div>
-					<label htmlFor="current_password" className="block text-sm font-medium text-gray-700">
-						Current Password
-					</label>
-					<input type="password" name="current_password" id="current_password" value={passwordData.current_password} onChange={(ev) => setPasswordData({ ...passwordData, current_password: ev.target.value })} placeholder="Enter your current password" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-					{errors.current_password && <p className="text-red-500 mt-1">{errors.current_password}</p>}
-				</div>
+					<div>
+						<label htmlFor="password" className="block text-sm font-medium text-gray-700">
+							New Password
+						</label>
+						<input type="password" name="password" id="password" value={passwordData.password} onChange={(ev) => setPasswordData({ ...passwordData, password: ev.target.value })} placeholder="Enter your new password" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+						{errors.password && <p className="text-red-500 mt-1">{errors.password}</p>}
+					</div>
 
-				<div>
-					<label htmlFor="password" className="block text-sm font-medium text-gray-700">
-						New Password
-					</label>
-					<input type="password" name="password" id="password" value={passwordData.password} onChange={(ev) => setPasswordData({ ...passwordData, password: ev.target.value })} placeholder="Enter your new password" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-					{errors.password && <p className="text-red-500 mt-1">{errors.password}</p>}
-				</div>
+					<div>
+						<label htmlFor="password_confirmation" className="block text-sm font-medium text-gray-700">
+							Confirm Password
+						</label>
+						<input type="password" name="password_confirmation" id="password_confirmation" value={passwordData.password_confirmation} onChange={(ev) => setPasswordData({ ...passwordData, password_confirmation: ev.target.value })} placeholder="Confirm your new password" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+						{errors.password_confirmation && <p className="text-red-500 mt-1">{errors.password_confirmation}</p>}
+					</div>
 
-				<div>
-					<label htmlFor="password_confirmation" className="block text-sm font-medium text-gray-700">
-						Confirm Password
-					</label>
-					<input type="password" name="password_confirmation" id="password_confirmation" value={passwordData.password_confirmation} onChange={(ev) => setPasswordData({ ...passwordData, password_confirmation: ev.target.value })} placeholder="Confirm your new password" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-					{errors.password_confirmation && <p className="text-red-500 mt-1">{errors.password_confirmation}</p>}
-				</div>
-
-				<div className="flex items-center gap-4">
-					<TButton type="submit">Save</TButton>
-				</div>
-			</form>
-		</section>
+					<div className="flex items-center gap-4">
+						<TButton type="submit">SAVE</TButton>
+					</div>
+				</form>
+			</section>
+		</div>
 	);
 }

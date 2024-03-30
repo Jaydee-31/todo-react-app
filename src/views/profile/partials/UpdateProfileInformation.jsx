@@ -40,45 +40,47 @@ export default function UpdateProfileInformation({ currentUser, className = "" }
 	};
 
 	return (
-		<section className={className}>
-			<header>
+		<div className="grid md:grid-cols-2 md:gap-4">
+			<header className="mb-6 ">
 				<h2 className="text-lg font-medium text-gray-900 ">Profile Information</h2>
 
 				<p className="mt-1 text-sm text-gray-600 ">Update your account's profile information and email address.</p>
 			</header>
 
-			<form onSubmit={onSubmit} className="mt-6 space-y-6">
-				<div>
-					<label htmlFor="name" className="block text-sm font-medium text-gray-700">
-						Name
-					</label>
-					<input type="text" name="name" id="name" value={user.name} onChange={(ev) => setUser({ ...user, name: ev.target.value })} placeholder="Todo Name" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-				</div>
-
-				<div>
-					<label htmlFor="name" className="block text-sm font-medium text-gray-700">
-						Email
-					</label>
-					<input type="email" name="email" id="email" value={user.email} onChange={(ev) => setUser({ ...user, email: ev.target.value })} placeholder="Todo Name" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-				</div>
-
-				{currentUser.email_verified_at === null && (
+			<section className={className}>
+				<form onSubmit={onSubmit} className="space-y-6">
 					<div>
-						<p className="text-sm mt-2 text-gray-800 dark:text-gray-200">
-							Your email address is unverified.
-							<Link href="#" method="post" as="button" className="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
-								Click here to re-send the verification email.
-							</Link>
-						</p>
-
-						<div className="mt-2 font-medium text-sm text-green-600 dark:text-green-400">A new verification link has been sent to your email address.</div>
+						<label htmlFor="name" className="block text-sm font-medium text-gray-700">
+							Name
+						</label>
+						<input type="text" name="name" id="name" value={user.name} onChange={(ev) => setUser({ ...user, name: ev.target.value })} placeholder="Todo Name" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
 					</div>
-				)}
 
-				<div className="flex items-center gap-4">
-					<TButton>Save</TButton>
-				</div>
-			</form>
-		</section>
+					<div>
+						<label htmlFor="name" className="block text-sm font-medium text-gray-700">
+							Email
+						</label>
+						<input type="email" name="email" id="email" value={user.email} onChange={(ev) => setUser({ ...user, email: ev.target.value })} placeholder="Todo Name" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+					</div>
+
+					{currentUser.email_verified_at === null && (
+						<div>
+							<p className="text-sm mt-2 text-gray-800 dark:text-gray-200">
+								Your email address is unverified.
+								<Link href="#" method="post" as="button" className="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+									Click here to re-send the verification email.
+								</Link>
+							</p>
+
+							<div className="mt-2 font-medium text-sm text-green-600 dark:text-green-400">A new verification link has been sent to your email address.</div>
+						</div>
+					)}
+
+					<div className="flex items-center gap-4">
+						<TButton>Save</TButton>
+					</div>
+				</form>
+			</section>
+		</div>
 	);
 }

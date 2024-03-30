@@ -58,51 +58,39 @@ export default function DeleteUserForm({ user, className = "" }) {
 	};
 
 	return (
-		<section className={`space-y-6 ${className}`}>
-			<header>
+		<div className="grid md:grid-cols-2 md:gap-4">
+			<header className="mb-6 ">
 				<h2 className="text-lg font-medium text-gray-900">Delete Account</h2>
-				<p className="mt-1 text-sm text-gray-600">Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.</p>
+				<p className="mt-1 text-sm text-gray-600">Permanently delete your account.</p>
 			</header>
+			<section className={`space-y-6 ${className}`}>
+				<p className="mt-1 text-sm text-gray-600">Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.</p>
+				<XDangerButton onClick={confirmUserDeletion}>Delete Account</XDangerButton>
 
-			<XDangerButton onClick={confirmUserDeletion}>Delete Account</XDangerButton>
-			<TButton onClick={confirmUserDeletion}>Delete Account</TButton>
-			{/* 
-			<ModalForm
-				isOpen={isModalOpen}
-				onClose={() => setIsModalOpen(false)}
-				title="Are you sure you want to delete your account?"
-				content="Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account."
-				formFields={[
-					{ name: "password", label: "Password", type: "password", value: password, onChange: (e) => setPassword(e.target.value), errors: password },
-					// Add more form fields if needed
-				]}
-				onSubmit={deleteUser}>
-				<p>Additional content goes here...</p>
-			</ModalForm> */}
+				<XModal show={confirmingUserDeletion} onClose={closeModal} className="z-20">
+					<form onSubmit={deleteUser} className="p-6">
+						<h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Are you sure you want to delete your account?</h2>
 
-			<XModal show={confirmingUserDeletion} onClose={closeModal} className="z-20">
-				<form onSubmit={deleteUser} className="p-6">
-					<h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Are you sure you want to delete your account?</h2>
+						<p className="mt-1 text-sm text-gray-600 dark:text-gray-400">Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.</p>
 
-					<p className="mt-1 text-sm text-gray-600 dark:text-gray-400">Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.</p>
+						<div className="mt-6">
+							<XInputLabel htmlFor="password" value="Password" className="sr-only" />
 
-					<div className="mt-6">
-						<XInputLabel htmlFor="password" value="Password" className="sr-only" />
+							<XTextInput id="password" type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1 block w-3/4" isFocused placeholder="Password" />
 
-						<XTextInput id="password" type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1 block w-3/4" isFocused placeholder="Password" />
+							<XInputError message={errors.password} className="mt-2" />
+						</div>
 
-						<XInputError message={errors.password} className="mt-2" />
-					</div>
+						<div className="mt-6 flex justify-end">
+							<XSecondaryButton onClick={closeModal}>Cancel</XSecondaryButton>
 
-					<div className="mt-6 flex justify-end">
-						<XSecondaryButton onClick={closeModal}>Cancel</XSecondaryButton>
-
-						<XDangerButton className="ms-3" disabled={processing}>
-							Delete Account
-						</XDangerButton>
-					</div>
-				</form>
-			</XModal>
-		</section>
+							<XDangerButton className="ms-3" disabled={processing}>
+								Delete Account
+							</XDangerButton>
+						</div>
+					</form>
+				</XModal>
+			</section>
+		</div>
 	);
 }
