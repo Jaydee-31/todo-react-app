@@ -9,6 +9,7 @@ import LoadDots from "../../components/spinner/LoadDots";
 import { PencilIcon } from "@heroicons/react/20/solid";
 import Modal from "../../components/Modal";
 import { toast } from "react-toastify";
+import XDropdown from "../../components/XDropDown";
 
 export default function Todos() {
 	const [todos, setTodos] = useState([]);
@@ -111,6 +112,7 @@ export default function Todos() {
 																	color="red">
 																	<TrashIcon className="w-5 h-5" />
 																</TButton>
+																<XDropdown />
 															</div>
 														</td>
 													</tr>
