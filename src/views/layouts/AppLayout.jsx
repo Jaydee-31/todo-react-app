@@ -97,7 +97,7 @@ export default function AppLayout() {
 														<span className="absolute -inset-1.5" />
 														<span className="sr-only">Open currentUser.menu</span>
 														{/* <img className="h-8 w-8 rounded-full" src={currentUser.imageUrl} alt="" /> */}
-														<img className="h-8 w-8 rounded-full" src={`https://ui-avatars.com/api/?name=${currentUser.name}&background=random&bold=true`} alt="Avatar" alt="" />
+														<img className="h-8 w-8 rounded-full" src={`https://ui-avatars.com/api/?name=${currentUser.name}&background=random&bold=true`} alt="" />
 													</Menu.Button>
 												</div>
 												<Transition as={Fragment} enter="transition ease-out duration-100" enterFrom="transform opacity-0 scale-95" enterTo="transform opacity-100 scale-100" leave="transition ease-in duration-75" leaveFrom="transform opacity-100 scale-100" leaveTo="transform opacity-0 scale-95">
