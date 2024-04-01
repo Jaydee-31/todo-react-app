@@ -8,20 +8,12 @@ import UpdatePasswordForm from "./partials/UpdatePasswordForm";
 import DeleteUserForm from "./partials/DeleteUserForm";
 
 export default function Edit() {
-	const [errors, setErrors] = useState({});
-
-	const [user, setUser] = useState({
-		name: "",
-		email: "",
-	});
-
-	const onSubmit = () => {
-		console.log("Submit");
-	};
+	const [user, setUser] = useState({});
 
 	useEffect(() => {
 		axiosClient.get("/me").then(({ data }) => {
-			setUser(data);
+			setUser(data.data);
+			// setLoading(false);
 		});
 	}, []);
 

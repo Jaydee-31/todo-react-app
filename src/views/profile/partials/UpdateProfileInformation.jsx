@@ -2,29 +2,47 @@ import React, { useEffect, useState } from "react";
 import TButton from "../../../components/core/TButton";
 import { Link } from "react-router-dom";
 import axiosClient from "../../../axios";
+import { PhotoIcon } from "@heroicons/react/24/outline";
 
 export default function UpdateProfileInformation({ currentUser, className = "" }) {
 	const [errors, setErrors] = useState({});
 	const [user, setUser] = useState({
 		name: "",
 		email: "",
+		profile_photo_path: null,
+		image_url: null,
 	});
 
-	useEffect(() => {
-		if (currentUser) {
+	const onImageChoose = (ev) => {
+		console.log("On image choose");
+		const file = ev.target.files[0];
+
+		const reader = new FileReader();
+		reader.onload = () => {
 			setUser({
-				name: currentUser.name || "",
-				email: currentUser.email || "",
+				...user,
+				profile_photo_path: file,
+				image_url: reader.result,
 			});
-		}
-	}, [currentUser]);
+
+			ev.target.value = "";
+		};
+		reader.readAsDataURL(file);
+	};
 
 	const onSubmit = (ev) => {
 		ev.preventDefault();
 
+		const payload = { ...user };
+		if (payload.profile_photo_path) {
+			payload.profile_photo_path = payload.image_url;
+		}
+		delete payload.image_url;
+		let result = null;
+
 		// Make a POST request using Axios
-		axiosClient
-			.put(`/profile/${currentUser.id}`, user)
+		result = axiosClient.put(`/profile/${currentUser.id}`, payload);
+		result
 			.then((response) => {
 				console.log("Profile updated successfully:", response.data);
 				toast("Profile updated successfully!", {
@@ -39,6 +57,17 @@ export default function UpdateProfileInformation({ currentUser, className = "" }
 			});
 	};
 
+	useEffect(() => {
+		if (currentUser) {
+			setUser({
+				name: currentUser.name || "",
+				email: currentUser.email || "",
+				profile_photo_path: currentUser.profile_photo_path || "",
+				image_url: currentUser.image_url,
+			});
+		}
+	}, [currentUser]);
+
 	return (
 		<div className="grid md:grid-cols-2 md:gap-4">
 			<header className="mb-6 ">
@@ -49,6 +78,23 @@ export default function UpdateProfileInformation({ currentUser, className = "" }
 
 			<section className={className}>
 				<form onSubmit={onSubmit} className="space-y-6">
+					{/*Image*/}
+					<div>
+						<label className="block text-sm font-medium text-gray-700">Photo</label>
+						<div className="mt-1 flex items-center">
+							{user.image_url && <img src={user.image_url} alt="" className="w-32 h-32 object-cover" />}
+							{!user.image_url && (
+								<span className="flex justify-center  items-center text-gray-400 h-12 w-12 overflow-hidden rounded-full bg-gray-100">
+									<PhotoIcon className="w-8 h-8" />
+								</span>
+							)}
+							<button type="button" className="relative ml-5 rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+								<input type="file" onChange={onImageChoose} className="absolute left-0 top-0 right-0 bottom-0 opacity-0" />
+								Change
+							</button>
+						</div>
+					</div>
+					{/*Image*/}
 					<div>
 						<label htmlFor="name" className="block text-sm font-medium text-gray-700">
 							Name
