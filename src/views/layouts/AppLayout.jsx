@@ -96,8 +96,7 @@ export default function AppLayout() {
 													<Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
 														<span className="absolute -inset-1.5" />
 														<span className="sr-only">Open currentUser.menu</span>
-														{/* <img className="h-8 w-8 rounded-full" src={currentUser.imageUrl} alt="" /> */}
-														<img className="h-8 w-8 rounded-full" src={`https://ui-avatars.com/api/?name=${currentUser.name}&background=random&bold=true`} alt="" />
+														{currentUser.image_url ? <img className="h-8 w-8 rounded-full" src={currentUser.image_url} alt="" /> : <img className="h-8 w-8 rounded-full" src={`https://ui-avatars.com/api/?name=${currentUser.name}&background=random&bold=true`} alt="" />}
 													</Menu.Button>
 												</div>
 												<Transition as={Fragment} enter="transition ease-out duration-100" enterFrom="transform opacity-0 scale-95" enterTo="transform opacity-100 scale-100" leave="transition ease-in duration-75" leaveFrom="transform opacity-100 scale-100" leaveTo="transform opacity-0 scale-95">
@@ -151,10 +150,7 @@ export default function AppLayout() {
 								</div>
 								<div className="border-t border-gray-700 pb-3 pt-4">
 									<div className="flex items-center px-5">
-										<div className="flex-shrink-0">
-											{/* <img className="h-10 w-10 rounded-full" src={currentUser.imageUrl} alt="" /> */}
-											<img className="h-10 w-10 rounded-full" src="https://ui-avatars.com/api/?name=John+Doe" alt="" />
-										</div>
+										<div className="flex-shrink-0">{currentUser.image_url ? <img className="h-10 w-10 rounded-full" src={currentUser.image_url} alt="" /> : <img className="h-10 w-10 rounded-full" src="https://ui-avatars.com/api/?name=John+Doe" alt="" />}</div>
 										<div className="ml-3">
 											<div className="text-base font-medium leading-none text-white">{currentUser.name}</div>
 											<div className="text-sm font-medium leading-none text-gray-400">{currentUser.email}</div>
