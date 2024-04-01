@@ -34,7 +34,7 @@ export default function AppLayout() {
 			axiosClient
 				.get("/me")
 				.then(({ data }) => {
-					setCurrentUser(data);
+					setCurrentUser(data.data);
 				})
 				.catch((error) => {
 					// Handle error, e.g., redirect to login page
@@ -116,7 +116,6 @@ export default function AppLayout() {
 																			}
 																			if (item.action == 0) {
 																				console.log("Update profile");
-																				console.log(currentUser);
 																				navigate(`/profile`); // Execute logout if the item name is "Sign Out"
 																			}
 																		}}
@@ -179,7 +178,6 @@ export default function AppLayout() {
 													}
 													if (item.action == 0) {
 														console.log("Update profile");
-														console.log(currentUser);
 														navigate(`/profile/`); // Execute logout if the item name is "Sign Out"
 													}
 												}}
